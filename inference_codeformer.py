@@ -58,6 +58,7 @@ if __name__ == '__main__':
             help='Output folder. Default: results/<input_name>_<w>')
     parser.add_argument('-w', '--fidelity_weight', type=float, default=0.5, 
             help='Balance the quality and fidelity')
+    parser.add_argument("--w", type=bool, default=False)
     parser.add_argument('-s', '--upscale', type=int, default=2, 
             help='The final upsampling scale of the image. Default: 2')
     parser.add_argument('--has_aligned', action='store_true', help='Input are cropped and aligned faces. Default: False')
