@@ -216,7 +216,7 @@ if __name__ == '__main__':
                 restored_img = face_helper.paste_faces_to_input_image(upsample_img=bg_img, draw_box=args.draw_box, face_upsampler=face_upsampler)
             else:
                 restored_img = face_helper.paste_faces_to_input_image(upsample_img=bg_img, draw_box=args.draw_box)
-
+        """
         # save faces
         for idx, (cropped_face, restored_face) in enumerate(zip(face_helper.cropped_faces, face_helper.restored_faces)):
             # save cropped face
@@ -232,7 +232,7 @@ if __name__ == '__main__':
                 save_face_name = f'{save_face_name[:-4]}_{args.suffix}.png'
             save_restore_path = os.path.join(result_root, 'restored_faces', save_face_name)
             imwrite(restored_face, save_restore_path)
-
+        """
         # save restored img
         if not args.has_aligned and restored_img is not None:
             if args.suffix is not None:
