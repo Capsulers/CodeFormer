@@ -24,7 +24,7 @@ def set_realesrgan():
     model = SRVGGNetCompact(num_in_ch=3, num_out_ch=3, num_feat=64, num_conv=32, upscale=4, act_type='prelu')
     upsampler = RealESRGANer(
         scale=4,
-        model_path='https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.5.0/realesr-general-x4v3.pth',
+        model_path="https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.5.0/realesr-general-x4v3.pth",
         model=model,
         tile=args.bg_tile,
         tile_pad=40,
@@ -49,8 +49,7 @@ if __name__ == '__main__':
     parser.add_argument('-o', '--output_path', type=str, default=None, 
             help='Output folder. Default: results/<input_name>_<w>')
     parser.add_argument('-w', '--fidelity_weight', type=float, default=0.5, 
-            help='Balance the quality and fidelity')
-    parser.add_argument("--w", type=bool, default=False)
+            help='Balance the quality and fidelity. Default: 0.5')
     parser.add_argument('-s', '--upscale', type=int, default=2, 
             help='The final upsampling scale of the image. Default: 2')
     parser.add_argument('--has_aligned', action='store_true', help='Input are cropped and aligned faces. Default: False')
@@ -70,7 +69,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     # ------------------------ input & output ------------------------
-    w = args.w
+    w = args.fidelity_weight
     input_video = False
     if args.input_path.endswith(('jpg', 'png')): # input single img path
         input_img_list = [args.input_path]
