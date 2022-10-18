@@ -12,6 +12,35 @@ import torch.nn.functional as F
 
 from basicsr.utils.registry import ARCH_REGISTRY
 
+if __name__ == '__main__':
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument('-i', '--input_path', type=str, default='./inputs/whole_imgs', 
+            help='Input image, video or folder. Default: inputs/whole_imgs')
+    parser.add_argument('-o', '--output_path', type=str, default=None, 
+            help='Output folder. Default: results/<input_name>_<w>')
+    parser.add_argument('-w', '--fidelity_weight', type=float, default=0.5, 
+            help='Balance the quality and fidelity')
+    parser.add_argument("--w", type=bool, default=False)
+    parser.add_argument('-s', '--upscale', type=int, default=2, 
+            help='The final upsampling scale of the image. Default: 2')
+    parser.add_argument('--has_aligned', action='store_true', help='Input are cropped and aligned faces. Default: False')
+    parser.add_argument('--only_center_face', action='store_true', help='Only restore the center face. Default: False')
+    parser.add_argument('--draw_box', action='store_true', help='Draw the bounding box for the detected faces. Default: False')
+    # large det_model: 'YOLOv5l', 'retinaface_resnet50'
+    # small det_model: 'YOLOv5n', 'retinaface_mobile0.25'
+    parser.add_argument('--detection_model', type=str, default='retinaface_resnet50', 
+            help='Face detector. Optional: retinaface_resnet50, retinaface_mobile0.25, YOLOv5l, YOLOv5n. \
+                Default: retinaface_resnet50')
+    parser.add_argument('--bg_upsampler', type=str, default='None', help='Background upsampler. Optional: realesrgan')
+    parser.add_argument('--face_upsample', action='store_true', help='Face upsampler after enhancement. Default: False')
+    parser.add_argument('--bg_tile', type=int, default=400, help='Tile size for background sampler. Default: 400')
+    parser.add_argument('--suffix', type=str, default=None, help='Suffix of the restored faces. Default: None')
+    parser.add_argument('--save_video_fps', type=int, default=24, help='Frame rate for saving video. Default: 24')
+
+    args = parser.parse_args()
+
 pretrain_model_url = {
     'restoration': 'https://github.com/sczhou/CodeFormer/releases/download/v0.1.0/codeformer.pth',
 }
@@ -41,34 +70,7 @@ def set_realesrgan():
                         category=RuntimeWarning)
     return upsampler
 
-if __name__ == '__main__':
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    parser = argparse.ArgumentParser()
 
-    parser.add_argument('-i', '--input_path', type=str, default='./inputs/whole_imgs', 
-            help='Input image, video or folder. Default: inputs/whole_imgs')
-    parser.add_argument('-o', '--output_path', type=str, default=None, 
-            help='Output folder. Default: results/<input_name>_<w>')
-    parser.add_argument('-w', '--fidelity_weight', type=float, default=0.5, 
-            help='Balance the quality and fidelity')
-    parser.add_argument("--w", type=bool, default=False)
-    parser.add_argument('-s', '--upscale', type=int, default=2, 
-            help='The final upsampling scale of the image. Default: 2')
-    parser.add_argument('--has_aligned', action='store_true', help='Input are cropped and aligned faces. Default: False')
-    parser.add_argument('--only_center_face', action='store_true', help='Only restore the center face. Default: False')
-    parser.add_argument('--draw_box', action='store_true', help='Draw the bounding box for the detected faces. Default: False')
-    # large det_model: 'YOLOv5l', 'retinaface_resnet50'
-    # small det_model: 'YOLOv5n', 'retinaface_mobile0.25'
-    parser.add_argument('--detection_model', type=str, default='retinaface_resnet50', 
-            help='Face detector. Optional: retinaface_resnet50, retinaface_mobile0.25, YOLOv5l, YOLOv5n. \
-                Default: retinaface_resnet50')
-    parser.add_argument('--bg_upsampler', type=str, default='None', help='Background upsampler. Optional: realesrgan')
-    parser.add_argument('--face_upsample', action='store_true', help='Face upsampler after enhancement. Default: False')
-    parser.add_argument('--bg_tile', type=int, default=400, help='Tile size for background sampler. Default: 400')
-    parser.add_argument('--suffix', type=str, default=None, help='Suffix of the restored faces. Default: None')
-    parser.add_argument('--save_video_fps', type=int, default=24, help='Frame rate for saving video. Default: 24')
-
-    args = parser.parse_args()
 
     # ------------------------ input & output ------------------------
     w = args.w
