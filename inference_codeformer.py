@@ -33,7 +33,7 @@ if __name__ == '__main__':
     parser.add_argument('--detection_model', type=str, default='retinaface_resnet50', 
             help='Face detector. Optional: retinaface_resnet50, retinaface_mobile0.25, YOLOv5l, YOLOv5n. \
                 Default: retinaface_resnet50')
-    parser.add_argument('--bg_upsampler', type=str, default='None', help='Background upsampler. Optional: realesrgan')
+    parser.add_argument('--bg_upsampler', type=str, default='realesrgan', help='Background upsampler. Optional: realesrgan')
     parser.add_argument('--face_upsample', action='store_true', help='Face upsampler after enhancement. Default: False')
     parser.add_argument('--bg_tile', type=int, default=400, help='Tile size for background sampler. Default: 400')
     parser.add_argument('--suffix', type=str, default=None, help='Suffix of the restored faces. Default: None')
