@@ -17,8 +17,8 @@ pretrain_model_url = {
 }
 
 def set_realesrgan():
-    from basicsr.archs.rrdbnet_arch import RRDBNet
     from basicsr.utils.realesrgan_utils import RealESRGANer
+    from realesrgan.archs.srvgg_arch import SRVGGNetCompact
 
     cuda_is_available = torch.cuda.is_available()
     half = True if cuda_is_available else False
