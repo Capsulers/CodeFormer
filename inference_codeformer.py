@@ -22,17 +22,10 @@ def set_realesrgan():
 
     cuda_is_available = torch.cuda.is_available()
     half = True if cuda_is_available else False
-    model = RRDBNet(
-        num_in_ch=3,
-        num_out_ch=3,
-        num_feat=64,
-        num_block=23,
-        num_grow_ch=32,
-        scale=2,
-    )
+    model = SRVGGNetCompact(num_in_ch=3, num_out_ch=3, num_feat=64, num_conv=32, upscale=4, act_type='prelu')
     upsampler = RealESRGANer(
-        scale=2,
-        model_path="https://github.com/sczhou/CodeFormer/releases/download/v0.1.0/RealESRGAN_x2plus.pth",
+        scale=4,
+        model_path="https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.5.0/realesr-general-x4v3.pth",
         model=model,
         tile=args.bg_tile,
         tile_pad=40,
