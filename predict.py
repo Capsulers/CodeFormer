@@ -15,7 +15,8 @@ except Exception:
     print('please install cog package')
 
 from basicsr.utils import imwrite, img2tensor, tensor2img
-from basicsr.archs.rrdbnet_arch import RRDBNet
+# from basicsr.archs.rrdbnet_arch import RRDBNet
+from basicsr.archs.srvgg_arch import SRVGGNetCompact
 from basicsr.utils.realesrgan_utils import RealESRGANer
 from basicsr.utils.registry import ARCH_REGISTRY
 from facelib.utils.face_restoration_helper import FaceRestoreHelper
@@ -169,17 +170,10 @@ def set_realesrgan():
         )
         upsampler = None
     else:
-        model = RRDBNet(
-            num_in_ch=3,
-            num_out_ch=3,
-            num_feat=64,
-            num_block=23,
-            num_grow_ch=32,
-            scale=2,
-        )
+        model = SRVGGNetCompact(num_in_ch=3, num_out_ch=3, num_feat=64, num_conv=32, upscale=4, act_type='prelu')
         upsampler = RealESRGANer(
-            scale=2,
-            model_path="./weights/realesrgan/RealESRGAN_x2plus.pth",
+            scale=4,
+            model_path="./weights/realesrgan/realesr-general-x4v3.pth",
             model=model,
             tile=400,
             tile_pad=40,
