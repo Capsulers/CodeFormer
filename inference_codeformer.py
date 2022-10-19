@@ -71,7 +71,7 @@ if __name__ == '__main__':
     # ------------------------ input & output ------------------------
     w = args.fidelity_weight
     input_video = False
-    if args.input_path.endswith(('jpeg','jpg', 'png')): # input single img path
+    if args.input_path.endswith(('jpg', 'png')): # input single img path
         input_img_list = [args.input_path]
         result_root = f'results/test_img_{w}'
     elif args.input_path.endswith(('mp4', 'mov', 'avi')): # input video path
@@ -88,7 +88,7 @@ if __name__ == '__main__':
         if args.input_path.endswith('/'):  # solve when path ends with /
             args.input_path = args.input_path[:-1]
         # scan all the jpg and png images
-        input_img_list = sorted(glob.glob(os.path.join(args.input_path, '*.[jpe][jp][pn]g')))
+        input_img_list = sorted(glob.glob(os.path.join(args.input_path, '*.[jp][pn]g')))
         result_root = f'results/{os.path.basename(args.input_path)}_{w}'
 
     if not args.output_path is None: # set output path
@@ -228,14 +228,14 @@ if __name__ == '__main__':
         if not args.has_aligned and restored_img is not None:
             if args.suffix is not None:
                 basename = f'{basename}_{args.suffix}'
-            save_restore_path = os.path.join(result_root, f'{basename}.jpeg')
+            save_restore_path = os.path.join(result_root, f'{basename}.jpg')
             imwrite(restored_img, save_restore_path)
 
     # save enhanced video
     if input_video:
         # load images
         video_frames = []
-        img_list = sorted(glob.glob(os.path.join(result_root, 'final_results', '*.[jpe][jp][pn]g')))
+        img_list = sorted(glob.glob(os.path.join(result_root, 'final_results', '*.[jp][pn]g')))
         for img_path in img_list:
             img = cv2.imread(img_path)
             video_frames.append(img)
